@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-
+// 다음에 다시 풀어보기
 public class Solution {
     public int solution(int[,] sizes) {
         List<int> width = new List<int>();
