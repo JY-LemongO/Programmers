@@ -17,25 +17,14 @@ public class Solution {
     
     public int CountDivisors(int num)
         {
-            int count = 1; // 1은 모든 수의 약수이므로 1로 시작
+            int count = 0;
 
-            for (int i = 2; i * i <= num; i++)
+            for(int i = 1; i * i <= num; i++)
             {
-                int exponent = 0;
-
-                while (num % i == 0)
-                {
-                    num /= i;
-                    exponent++;
-                }
-
-                count *= (exponent + 1);
-            }
-
-            if (num > 1)
-            {
-                // 마지막에 소수가 남아있는 경우
-                count *= 2;
+                if (i * i == num)
+                    count++;
+                else if (num % i == 0)
+                    count += 2;
             }
 
             return count;
