@@ -1,38 +1,49 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 public class Solution {
     public int solution(int n, int[] lost, int[] reserve) {
-         Array.Sort(lost);
-        Array.Sort(reserve);
-        foreach (int l in lost)
-        {
-            foreach (int r in reserve)
+         int answer = 0;
+
+            List<int> reserveList = new List<int>(reserve);
+            List<int> lostList = new List<int>(lost);
+
+            reserveList.Sort();
+            lostList.Sort();
+
+            List<int> removeList = new List<int>();
+            foreach (int res in reserveList)
             {
-                if (l == r)
+                foreach(int los in lostList)
                 {
-                    lost = lost.Where(x => x != l).ToArray();
-                    reserve = reserve.Where(x => x != r).ToArray();
-                    break;
+                    if (res == los)
+                    {
+                        removeList.Add(res);
+                        break;
+                    }                 
                 }
             }
-        }
-        int count=0;
-        foreach (int l in lost)
-        {
-            for (int i = 0; i < reserve.Length; i++)
+
+            foreach(int remove in removeList)
             {
-                if (l - 1 == reserve[i] && reserve[i]!=0 
-                     || l + 1 == reserve[i] && reserve[i]!=0)
+                reserveList.Remove(remove);
+                lostList.Remove(remove);
+            }
+
+            for(int i = 0; i < lostList.Count; i++)
+            {
+                foreach(int re in reserveList)
                 {
-                    reserve[i]=0;
-                    count++;
-                    break;
+                    if(re == lostList[i] + 1 || re == lostList[i] - 1)
+                    {
+                        answer++;
+                        reserveList.Remove(re);
+                        break;
+                    }
                 }
             }
-        }
-        return n - lost.Length + count;
+
+            return n - (lostList.Count - answer);
     }
 }
