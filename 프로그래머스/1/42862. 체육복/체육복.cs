@@ -1,40 +1,38 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Solution {
     public int solution(int n, int[] lost, int[] reserve) {
-        List<int> lostList = new List<int>(lost);
-        List<int> reserveList = new List<int>(reserve);
-        lostList.Sort();
-        reserveList.Sort();
-        
-        List<int> tempList = new List<int>(reserveList);
-        
-        for (int i = 0; i < tempList.Count; i++)
+         Array.Sort(lost);
+        Array.Sort(reserve);
+        foreach (int l in lost)
         {
-            if (lostList.Contains(tempList[i]))
+            foreach (int r in reserve)
             {
-                lostList.Remove(tempList[i]);
-                reserveList.Remove(tempList[i]);
+                if (l == r)
+                {
+                    lost = lost.Where(x => x != l).ToArray();
+                    reserve = reserve.Where(x => x != r).ToArray();
+                    break;
+                }
             }
         }
-        
-        for (int i = 0; i < reserveList.Count; i++)
-        {           
-            if (lostList.Contains(reserveList[i] - 1))
+        int count=0;
+        foreach (int l in lost)
+        {
+            for (int i = 0; i < reserve.Length; i++)
             {
-                lostList.Remove(reserveList[i] - 1);
-                continue;
-            }
-            
-            if (lostList.Contains(reserveList[i] + 1))
-            {
-                lostList.Remove(reserveList[i] + 1);
-                continue;
+                if (l - 1 == reserve[i] && reserve[i]!=0 
+                     || l + 1 == reserve[i] && reserve[i]!=0)
+                {
+                    reserve[i]=0;
+                    count++;
+                    break;
+                }
             }
         }
-        
-        return n - lostList.Count;
+        return n - lost.Length + count;
     }
 }
