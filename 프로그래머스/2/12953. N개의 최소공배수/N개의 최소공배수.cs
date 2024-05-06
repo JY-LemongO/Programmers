@@ -13,6 +13,9 @@ public class Solution {
         return (a*b)/n;
     }
     public int solution(int[] arr) {
+        if (arr.Length == 1)
+    return arr[0];
+        
         int answer = LCM(arr[0],arr[1]);
         for(int i=2; i<arr.Length; i++)
         {
