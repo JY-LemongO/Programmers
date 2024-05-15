@@ -4,39 +4,39 @@ using System.Collections.Generic;
 public class Solution {
     public int solution(string s) {
         int answer = 0;
-        
-        List<char> str = new List<char> (s);
-        for (int i = 0; i < s.Length; i++)
-        {
-            answer += isProperBrackets(str) ? 1 : 0;
-            str.Add(str[0]);
-            str.RemoveAt(0);
-        }
-        
-        return answer;
+List<char> chars = new List<char>(s);
+
+for(int i = 0; i < s.Length; i++)
+{
+    answer += IsCorrect(chars) ? 1 : 0;
+    chars.Add(chars[0]);
+    chars.RemoveAt(0);
+}
+
+return answer;
     }
     
-    private bool isProperBrackets(List<char> str)
+    private bool IsCorrect(List<char> chars)
+{
+    Stack<char> stack = new Stack<char>();
+    string open = "({[";
+    string close = ")}]";
+
+    for(int i = 0; i < chars.Count; i++)
     {
-        Stack<char> brackets = new Stack<char> ();
-        string open = "({[";
-        string close = ")}]";
-        
-        for (int i = 0; i < str.Count; i++)
+        if (open.Contains(chars[i]))
+            stack.Push(chars[i]);
+        else
         {
-            if (open.Contains(str[i]))
-                brackets.Push(str[i]);
-            else
-            {
-                if (brackets.Count == 0)
-                    return false;
-                if (str[i] != close[open.IndexOf(brackets.Peek())])
-                    return false;
-                brackets.Pop();
-            }
+            if (stack.Count == 0)
+                return false;
+            if (chars[i] != close[open.IndexOf(stack.Peek())])
+                return false;
+            stack.Pop();
         }
-        if (brackets.Count != 0)
-            return false;
-        return true;
     }
+    if(stack.Count != 0)
+        return false;
+    return true;
+}
 }
