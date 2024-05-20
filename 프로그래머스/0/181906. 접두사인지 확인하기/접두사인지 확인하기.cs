@@ -2,12 +2,6 @@ using System;
 
 public class Solution {
     public int solution(string my_string, string is_prefix) {
-        for(int i = 0; i < is_prefix.Length; i++)
-{
-    if (i >= my_string.Length|| my_string[i] != is_prefix[i])
-        return 0;
-}   
-
-return 1;
+        return my_string.IndexOf(is_prefix) == 0 ? 1 : 0;       
     }
 }
