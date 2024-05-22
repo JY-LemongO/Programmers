@@ -2,17 +2,17 @@ using System;
 
 public class Solution {
     public int solution(int[] num_list) {
-        int a = 0;
-int b = 0;
+        string even = "";
+        string odd = "";
 
-for (int i = 0; i < num_list.Length; i++)
-{
-    if (num_list[i] % 2 == 0)
-        a = a > 0 ? a * 10 + num_list[i] : num_list[i];
-    else
-        b = b > 0 ? b * 10 + num_list[i] : num_list[i];
-}
+        foreach(int n in num_list)
+        {
+            if(n % 2 == 0)
+                even += n.ToString();
+            else
+                odd += n.ToString();
+        }
 
-return a + b;
+        return int.Parse(even) + int.Parse(odd);
     }
 }
