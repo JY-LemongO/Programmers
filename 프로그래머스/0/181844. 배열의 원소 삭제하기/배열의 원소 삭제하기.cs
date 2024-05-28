@@ -1,16 +1,5 @@
-using System;
-using System.Collections.Generic;
 
+using System.Linq;
 public class Solution {
-    public int[] solution(int[] arr, int[] delete_list)
-        {
-            List<int> intList = new List<int>(arr);
-            foreach (int i in delete_list)
-            {
-                if(intList.Contains(i))
-                    intList.Remove(i);
-            }
-
-            return intList.ToArray();
-        }
+    public int[] solution(int[] arr, int[] delete_list) => arr.Except(delete_list).ToArray();
 }
