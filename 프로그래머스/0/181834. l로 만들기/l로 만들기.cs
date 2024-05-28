@@ -3,17 +3,11 @@ using System.Text;
 
 public class Solution {
     public string solution(string myString)
-        {
-            int l = 'l';
+        {            
+            for (int i = 0; i < myString.Length; i++)
+                if (myString[i] < 'l')
+                    myString = myString.Replace(myString[i], 'l');
 
-        for(int j = 0; j < myString.Length; j++)
-        {
-            if (myString[j] < l)
-            {
-                myString = myString.Replace(myString[j], 'l');
-            }
-        }
-
-        return myString;
+            return myString;
         }
 }
