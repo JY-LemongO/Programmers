@@ -4,11 +4,16 @@ using System.Text;
 public class Solution {
     public string solution(string myString)
         {
-            StringBuilder sb = new StringBuilder(myString);
-            for (int i = 0; i < sb.Length; i++)
-                if (sb[i] < 'l')
-                    sb[i] = 'l';
+            int l = 'l';
 
-            return sb.ToString();
+        for(int j = 0; j < myString.Length; j++)
+        {
+            if (myString[j] < l)
+            {
+                myString = myString.Replace(myString[j], 'l');
+            }
+        }
+
+        return myString;
         }
 }
