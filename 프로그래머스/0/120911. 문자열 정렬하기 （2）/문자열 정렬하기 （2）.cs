@@ -4,19 +4,22 @@ using System.Text;
 public class Solution {
     public string solution(string my_string)
         {
-            string answer = "";
-        char[] tt = my_string.ToLower().ToCharArray();
-        for (int i = 0; i < tt.Length - 1; i++) 
-        {
-            if (tt[i] > tt[i+1])
+            StringBuilder sb = new StringBuilder(my_string.ToLower());
+            
+            for(int i = 0; i < sb.Length - 1; i++)
             {
-                char c = tt[i];
-                tt[i] = tt[i + 1];
-                tt[i + 1] = c;
-                i = -1;
+                int index = i;
+                for(int j = i + 1; j < sb.Length; j++)
+                {
+                    if (sb[index] > sb[j])
+                        index = j;
+                }
+
+                char temp = sb[i];
+                sb[i] = sb[index];
+                sb[index] = temp;
             }
-        }
-        answer = new string(tt);
-        return answer;
+
+            return sb.ToString();
         }
 }
