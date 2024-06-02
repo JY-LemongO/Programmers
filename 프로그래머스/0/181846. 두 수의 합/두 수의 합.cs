@@ -2,36 +2,44 @@ using System;
 using System.Text;
 
 public class Solution {
-    public string solution(string a, string b) {
-        string shortedStr = a.Length > b.Length ? b : a;
-        string longerStr = a.Length > b.Length ? a : b;
-
-        var sb = new StringBuilder();
-        int over = 0;
-        int i = 0;
-        for(; i < shortedStr.Length; ++i)
+    public string solution(string a, string b)
         {
-            int numA = shortedStr[shortedStr.Length - 1 - i] - '0';
-            int numB = longerStr[longerStr.Length - 1 - i] - '0';
-
-            int sum = numA + numB + over;
-            over = sum / 10;
-
-            sb.Insert(0, (sum % 10).ToString());
-        }
-
-        for(; i < longerStr.Length; ++i)
+            string answer = string.Empty;
+        int count = a.Length >= b.Length ? a.Length : b.Length;
+        int leftIndex = a.Length - 1, rightIndex = b.Length - 1, 
+        leftValue = 0, rightValue = 0, result = 0, addNumber = 0;
+        bool isComplete = false;
+        while(isComplete == false)
         {
-            int numB = longerStr[longerStr.Length - 1 - i] - '0';
-            int sum = numB + over;
-            over = sum / 10;
+            if (leftIndex == -1 && rightIndex == -1 && addNumber == 0)
+            {
+                isComplete = true;
+            }
+            else
+            {
+                leftValue = leftIndex < 0 ? 0 : (int)char.GetNumericValue(a[leftIndex]);
+                rightValue = rightIndex < 0 ? 0 : (int)char.GetNumericValue(b[rightIndex]);
+                leftIndex = leftIndex-- <= 0 ? -1 : leftIndex--;
+                rightIndex = rightIndex-- <= 0 ? -1 : rightIndex--;
+                result = leftValue + rightValue + addNumber;
 
-            sb.Insert(0, (sum % 10).ToString());
+                if (result >= 10)
+                {
+                    addNumber = 1;
+                    result = result - 10;
+                }
+                else
+                {
+                    addNumber = 0;
+                }
+                answer += result.ToString();
+            }
+
+
+        }      
+
+        char[] charArray = answer.ToCharArray();
+        Array.Reverse(charArray);
+        return new string(charArray);        
         }
-
-        if(over > 0)
-            sb.Insert(0, over.ToString());
-
-        return sb.ToString();
-    }
 }
