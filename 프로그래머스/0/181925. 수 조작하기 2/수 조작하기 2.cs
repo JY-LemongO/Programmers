@@ -4,28 +4,20 @@ using System.Text;
 public class Solution {
     public string solution(int[] numLog)
         {
-            StringBuilder sb = new StringBuilder();
-            
-            for(int i = 1; i < numLog.Length; i++)
-            {
-                int diff = numLog[i] - numLog[i - 1];
-                switch (diff)
-                {
-                    case 1:
-                        sb.Append('w');
-                        break;
-                    case -1:
-                        sb.Append('s');
-                        break;
-                    case 10:
-                        sb.Append('d');
-                        break;
-                    case -10:
-                        sb.Append('a');
-                        break;
-                }
-            }
+            var sb = new StringBuilder();
+        int n = numLog[0];
+        for(int i = 1; i < numLog.Length; ++i)
+        {
+            int next = numLog[i];
 
-            return sb.ToString();
+            if(n + 1 == next)       sb.Append("w");
+            else if(n - 1 == next)  sb.Append("s");
+            else if(n + 10 == next) sb.Append("d");
+            else if(n - 10 == next) sb.Append("a");
+
+            n = next;
+        }
+
+        return sb.ToString();
         }
 }
