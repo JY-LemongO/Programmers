@@ -1,92 +1,58 @@
 using System;
 using System.Collections.Generic;
+
 public class Solution {
     public int solution(string[] want, int[] number, string[] discount)
         {
-            Dictionary<string, int> wantList = new Dictionary<string, int>();
-            Dictionary<string, int> discountList = new Dictionary<string, int>();
+            Dictionary<string, int> saleItem = new Dictionary<string, int>();
 
-            for (int i = 0; i < number.Length; i++)
+        for (int i = 0; i < 10; i++)
+        {
+            if (saleItem.ContainsKey(discount[i]))
             {
-                if (wantList.ContainsKey(want[i]))
+                saleItem[discount[i]]++;
+            }
+
+            else
+            {
+                saleItem.Add(discount[i], 1);
+            }
+        }
+
+        int answer = 0;
+        for (int i = 0; ; i++)
+        {
+            bool passCheck = true;
+            for (int j = 0; j < want.Length; j++)
+            {
+                if (!saleItem.ContainsKey(want[j]) || saleItem[want[j]] < number[j])
                 {
-                    wantList[want[i]]+=number[i];
-                }
-                else
-                {
-                    wantList.Add(want[i],number[i]);
+                    passCheck = false;
+                    break;
                 }
             }
 
-            int day = 0;
-            int result = 0;
-
-            for (int i = 0; i < 10; i++)
+            if (passCheck)
             {
-                string d = discount[i];
-                if (discountList.ContainsKey(d))
-                {
-                    discountList[d]++;
-                }
-                else
-                {
-                    discountList.Add(d,1);
-                }
+                answer++;
             }
 
-            while (day + 10<discount.Length+1)
+            if (discount.Length <= i + 10)
             {
-                string prevDis = discount[day];
-                bool isPass = false;
-
-                foreach (var w in wantList)
-                {
-                    if (!discountList.ContainsKey(w.Key))
-                    {
-
-                        isPass = true;
-                    }
-                    else if (discountList[w.Key] != w.Value)
-                    {
-                        isPass = true;
-                    }
-                }
-
-                Console.WriteLine("");
-
-                if (discountList[prevDis] == 1)
-                {
-                    discountList.Remove(prevDis);
-                }
-                else
-                {
-                    discountList[prevDis]--;
-                }
-
-                if (day+10<discount.Length)
-                {
-                    string ss = discount[day + 10];
-
-                    if (discountList.ContainsKey(ss))
-                    {
-                        discountList[ss]++;
-                    }
-                    else
-                    {
-                        discountList.Add(ss,1);
-                    }
-                }
-
-                if (isPass)
-                {
-                    day++;
-                }
-                else
-                {
-                    result++;
-                    day++;
-                }
+                break;
             }
-            return result;
+            saleItem[discount[i]]--;
+            if (saleItem.ContainsKey(discount[i + 10]))
+            {
+                saleItem[discount[i + 10]]++;
+            }
+
+            else
+            {
+                saleItem.Add(discount[i + 10], 1);
+            }
+        }
+
+        return answer;
         }
 }
