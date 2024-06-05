@@ -1,36 +1,92 @@
 using System;
-
+using System.Collections.Generic;
 public class Solution {
     public int solution(string[] want, int[] number, string[] discount)
         {
-            int answer = 0;                        
+            Dictionary<string, int> wantList = new Dictionary<string, int>();
+            Dictionary<string, int> discountList = new Dictionary<string, int>();
 
-            for (int day = 0; day < discount.Length - 9; day++)
+            for (int i = 0; i < number.Length; i++)
             {
-                int[] copy = new int[number.Length];
-                int count = 0;
+                if (wantList.ContainsKey(want[i]))
+                {
+                    wantList[want[i]]+=number[i];
+                }
+                else
+                {
+                    wantList.Add(want[i],number[i]);
+                }
+            }
 
-                for (int i = day; i < day + 10; i++)
-                {                    
-                    for (int j = 0; j < want.Length; j++)
+            int day = 0;
+            int result = 0;
+
+            for (int i = 0; i < 10; i++)
+            {
+                string d = discount[i];
+                if (discountList.ContainsKey(d))
+                {
+                    discountList[d]++;
+                }
+                else
+                {
+                    discountList.Add(d,1);
+                }
+            }
+
+            while (day + 10<discount.Length+1)
+            {
+                string prevDis = discount[day];
+                bool isPass = false;
+
+                foreach (var w in wantList)
+                {
+                    if (!discountList.ContainsKey(w.Key))
                     {
-                        if (discount[i] == want[j])
-                        {
-                            copy[j]++;
-                        }
+
+                        isPass = true;
+                    }
+                    else if (discountList[w.Key] != w.Value)
+                    {
+                        isPass = true;
                     }
                 }
 
-                for(int i = 0; i < copy.Length; i++)
-                {
-                    if (copy[i] < number[i])
-                        break;
-                    count++;
-                }
-                if(count == number.Length)
-                    answer++;
-            }
+                Console.WriteLine("");
 
-            return answer;
+                if (discountList[prevDis] == 1)
+                {
+                    discountList.Remove(prevDis);
+                }
+                else
+                {
+                    discountList[prevDis]--;
+                }
+
+                if (day+10<discount.Length)
+                {
+                    string ss = discount[day + 10];
+
+                    if (discountList.ContainsKey(ss))
+                    {
+                        discountList[ss]++;
+                    }
+                    else
+                    {
+                        discountList.Add(ss,1);
+                    }
+                }
+
+                if (isPass)
+                {
+                    day++;
+                }
+                else
+                {
+                    result++;
+                    day++;
+                }
+            }
+            return result;
         }
 }
