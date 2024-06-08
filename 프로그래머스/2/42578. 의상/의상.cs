@@ -1,10 +1,24 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 public class Solution {
     public int solution(string[,] clothes)
-        {
-            return Enumerable.Range(0, clothes.GetLength(0)).Select(i => clothes[i,1]).GroupBy(p => p).Select(g => g.Count() + 1).Aggregate(1, (p, q) => p * q) - 1;
-        }
+            {
+                int answer = 1;
+
+                Dictionary<string, int> dict = new Dictionary<string, int>();
+
+                for(int i = 0; i < clothes.GetLength(0); i++)
+                {
+                    if (dict.ContainsKey(clothes[i, 1]))
+                        dict[clothes[i, 1]]++;
+                    else
+                        dict.Add(clothes[i, 1], 1);
+                }
+
+                foreach(int i in dict.Values)
+                    answer *= i + 1;
+
+                return --answer;
+            }
 }
