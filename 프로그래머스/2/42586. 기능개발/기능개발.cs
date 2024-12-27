@@ -2,9 +2,41 @@ using System;
 using System.Collections.Generic;
 
 public class Solution {
-    public int[] solution(int[] progresses, int[] speeds)
-        {
-            int[] days = new int[progresses.Length];
+    public int[] solution(int[] progresses, int[] speeds) {
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        int[] days = new int[progresses.Length];
             for(int i = 0; i < progresses.Length; i++)
             {
                 days[i] = (100 - progresses[i]) / speeds[i];
@@ -12,32 +44,29 @@ public class Solution {
                     days[i]++;
             }
 
-            Queue<int> dayStack = new Queue<int>(days);
-            List<int> answerList = new List<int>();
+            Queue<int> dayQueue = new Queue<int>(days);
+            List<int> answerList = new List<int>();            
             
-            int prev = 0;
-            while(dayStack.Count > 0)
+            while(dayQueue.Count > 0)
             {
                 int count = 0;
-
-                prev = dayStack.Dequeue();
+                int prev = dayQueue.Dequeue();
                 count++;
 
                 while (true)
                 {
-                    if (dayStack.Count > 0 && prev >= dayStack.Peek())
+                    if (dayQueue.Count > 0 && prev >= dayQueue.Peek())
                     {
-                        dayStack.Dequeue();
+                        dayQueue.Dequeue();
                         count++;
                     }
                     else
                         break;
                 }                    
 
-                answerList.Add(count);
-                count = 0;
+                answerList.Add(count);                
             }            
 
             return answerList.ToArray();
-        }
+    }
 }
